@@ -52,7 +52,6 @@ To estimate the time duration of each state, we sampled the microcontroller syst
 - **Setup**: $168216\mu{s}$
 - **Mesurement**: $23845\mu{s}$
 - **Transmission**: $852\mu{s}$
-- idleTime: $168216\mu{s}$
 
 Note that in order to study a more power hungry case we considered the case where the ultrasonic sensor measure an obtacle at 400cm (i.e. it's maximum distance). Note also that the call of the function `micros()`, used to get the time in various point of the code, can increase the excecution time, but it is ignored.
 
