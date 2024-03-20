@@ -77,7 +77,7 @@ Considering a battery capable of $5349J$, we can achieve an power-on time of $17
 
 The implemented system provides a power-on time of only roughly one day. This results in a terrible product because recharging the battery of every node each day is not acceptable.
 
-The measurement state takes the most amount of power! ...
+The measurement state takes the most amount of energy!
 
 Considering the original application requirements, we could consider several possible improvements to the current implementation:
 - A cycle duration of $~50s$ may be too short or long, depending on the application goals. If we could increase the deep-sleep duration, one battery cycle would last more time.
