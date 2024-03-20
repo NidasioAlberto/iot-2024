@@ -13,7 +13,7 @@ The node has to:
 The node should:
 - Consume the less amount of power possible
 
-Parametrs:
+Parameters:
 - Duty cycle: $(44 \space \% \space 50) + 5 = 49s$
 - Battery energy: $5344 + 5 = 5349Joule$
 
@@ -27,16 +27,7 @@ Parametrs:
 
 ### Overall code structure
 
-```mermaid
-stateDiagram-v2
-  direction LR
-  [*] --> Setup
-  Setup --> Measurement
-  Measurement --> Transmission
-  deepSleep: Deep-sleep
-  Transmission --> deepSleep
-  deepSleep --> Setup
-```
+![](state_diagram.svg)
 
 The application code is rather simple as there are 4 major steps:
 1. **Setup**: When the device boots up, the ESP-NOW protocol, transmission power and sensor are initialized
@@ -53,7 +44,7 @@ To estimate the time duration of each state, we sampled the microcontroller syst
 - **Mesurement**: $23845\mu{s}$
 - **Transmission**: $852\mu{s}$
 
-Note that in order to study a more power hungry case we considered the case where the ultrasonic sensor measure an obtacle at 400cm (i.e. it's maximum distance). Note also that the call of the function `micros()`, used to get the time in various point of the code, can increase the excecution time, but it is ignored.
+Note that in order to study a more power hungry case we considered the case where the ultrasonic sensor measure an obstacle at 400cm (i.e. it's maximum distance). Note also that the call of the function `micros()`, used to get the time in various point of the code, can increase the execution time, but it is ignored.
 
 We also compared the measured measurement time with the theoretical time required by the sensor. The HC-SR04 is based on ultrasounds, which travels approximately at $340m/s$. Considering a maximum distance of $4m$, the sensor should take $\frac{4}{340} \cdot 2 = 23529\mu{s}$, which is almost identical to the measured time.
 
@@ -66,9 +57,7 @@ From the provided log files, we measured the following power consumptions:
 - **Transmission at 2dBm**: $800mW$
 - **Deep-sleep**: $60mW$
 
-TODO: Compare with datasheet
-
-Given the application requirements, where all the nodes are in a parking area, we assume that the sink node is realtively close to the nodes. For this reason we can transmit at 2dBm power.
+Given the application requirements, where all the nodes are in a parking area, we assume that the sink node is relatively close to the nodes. For this reason we can transmit at 2dBm power.
 
 Considering the power consumption and duration of each relative state, we can estimate the power consumption of one cycle:
 - **Setup**: $315mW \cdot 168216\mu{s} = 60mJ$
@@ -96,7 +85,7 @@ The measurement state takes the most amount of power! ...
 
 Considering the original application requirements, we could consider several possible improvements to the current implementation:
 - A cycle duration of $~50s$ may be too short or long, depending on the application goals. If we could increase the deep-sleep duration, one battery cycle would last more time.
-- Currently, the node transmit the measured data at each cycle, even if the parking slot state did not change. By comparing the current measuremnt against the previous one (we could store it in the ESP32's RTC RAM, that is maintained during deep-sleep), we could use the radio to transmit only state changes. This would reduce the power consumption since the parking slots occupancies does not change very frequently.
+- Currently, the node transmit the measured data at each cycle, even if the parking slot state did not change. By comparing the current measurement against the previous one (we could store it in the ESP32's RTC RAM, that is maintained during deep-sleep), we could use the radio to transmit only state changes. This would reduce the power consumption since the parking slots occupancies does not change very frequently.
 - Implement a solar panel and a battery charger circuit. This could entirely avoid the need to recharge the battery.
 - The measurement state is currently the most power hungry state. This is due to the sensor being used, the HC-SR04. There exists other types of sensors which are more power efficient (e.g. a time-of-flight sensor such as the [VL53L3CX](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj10vPO1oCFAxUyiP0HHXg1Bd4QFnoECBEQAQ&url=https%3A%2F%2Fwww.st.com%2Fresource%2Fen%2Fdatasheet%2Fvl53l3cx.pdf&usg=AOvVaw20QK3Kygxh3pnP4ZW6VR6d&opi=89978449) from ST consumes $~44.8mW$). We could also take advantage of power saving features of sensors, or cut power to them while in deep-sleep.
 - One device could cover more than one parking slot by implementing multiple sensors.
