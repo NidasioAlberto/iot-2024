@@ -75,10 +75,6 @@ Considering a battery capable of $5349J$, we can achieve an power-on time of $17
 
 ## 3: Comments on results and possible improvements
 
-Tasks:
-- Provide a small comment on the implemented system
-- Starting from the system requirements, propose some possible improvements in terms of energy consumption without modifying the main task "notify to a sink node the occupancy state of a parking spot"
-
 The implemented system provides a power-on time of only roughly one day. This results in a terrible product because recharging the battery of every node each day is not acceptable.
 
 The measurement state takes the most amount of power! ...
