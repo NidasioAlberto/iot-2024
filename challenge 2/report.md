@@ -34,3 +34,11 @@ The questions to be answered are:
       hour 3.59PM (Milan Time) are directed to topic 6?
     - Explain possible reasons why messages in 7a are not handled by the
       server
+
+## Answers
+
+1. - `udp.dstport == 5683 && coap.code == 1 && coap.opt.uri_path == "temperature"`
+   - sort with respect to length\
+     `udp.srcport == 5683 && ip.dst_host == 127.0.0.1`\
+     64488 should be the answer
+2. -
