@@ -41,4 +41,5 @@ The questions to be answered are:
    - sort with respect to length\
      `udp.srcport == 5683 && ip.dst_host == 127.0.0.1`\
      64488 should be the answer
-2. -
+2. - Script 2.1 (17)
+   - Script 2.2 (8)
