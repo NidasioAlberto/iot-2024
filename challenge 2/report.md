@@ -46,3 +46,9 @@ The questions to be answered are:
 3. - `mqtt && tcp.port == 1883 && mqtt.msgtype == 3 && mqtt.qos == 2 && (ip.dst_host == "127.0.0.1" || ip.dst_host == "10.0.2.15") && tcp.srcport == 1883`\
      where the destination address must be either internal or the public one and the src port must be the broker one (aka the service), so 1883. Based on these assumptions, the number or received messages is 2 with qos = 2
    - The number of involved clients based on the previous assumption is 1
+   - `mqtt && tcp.port == 1883 && mqtt.msgtype == 8 && mqtt.topic contains "hospital" && ip.dst_host == "3.65.168.153" && tcp.srcport == 59385`\
+     We are looking for these topics:
+     - `hospital/facility2/section0` (3.65.168.153) (dst port 59385)
+     - `hospital/facility2/room4/temperature` (3.65.168.153) (dst port 59385)
+       For both of them, the subscription topic is `hospital/#` with a MID of 15
+4.
