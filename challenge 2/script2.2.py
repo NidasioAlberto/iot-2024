@@ -7,7 +7,7 @@ def isIndexIn(packets, index):
     return False
 
 failures = pyshark.FileCapture("challenge2.pcapng", 
-                              display_filter="udp.port == 5683 && ip.src_host == 134.102.218.18 && coap.code == 133")
+                              display_filter="udp.port == 5683 && ip.src_host == 134.102.218.18 && >= 128 &&  coap.code <= 165")
 posts = pyshark.FileCapture("challenge2.pcapng", 
                             display_filter="udp.port == 5683 && ip.dst_host == 134.102.218.18 && coap.code == 2")
 
