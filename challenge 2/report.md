@@ -43,5 +43,6 @@ The questions to be answered are:
      64488 should be the answer
 2. - Script 2.1 (17)
    - Script 2.2 (8)
-3. - `mqtt && tcp.port == 1883 && mqtt.msgtype == 3 && mqtt.qos == 2` (81)
-   - Script 3.2 (47)
+3. - `mqtt && tcp.port == 1883 && mqtt.msgtype == 3 && mqtt.qos == 2 && (ip.dst_host == "127.0.0.1" || ip.dst_host == "10.0.2.15") && tcp.srcport == 1883`\
+     where the destination address must be either internal or the public one and the src port must be the broker one (aka the service), so 1883. Based on these assumptions, the number or received messages is 2 with qos = 2
+   - The number of involved clients based on the previous assumption is 1
