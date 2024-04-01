@@ -43,11 +43,11 @@ The questions to be answered are:
      8. Client Port: 41264, MID: 12426
 2. a. There are 18 POST requests directed to "coap.me" which ended in failure (see `scripts/2.a.py`)
    b. There are 8 POST requests directed to a weird resource of "coap.me" which ended in failure (see `scripts/2.b.py`)
-3. a. `mqtt && tcp.port == 1883 && mqtt.msgtype == 3 && mqtt.qos == 2 && (ip.dst_host == "127.0.0.1" || ip.dst_host == "10.0.2.15") && tcp.srcport == 1883`\
+3. a. `mqtt && mqtt.msgtype == 3 && mqtt.qos == 2 && (ip.dst_host == "127.0.0.1" || ip.dst_host == "10.0.2.15") && tcp.srcport == 1883`\
      The number or received messages is 2.\
      The destination address must be either internal or the public one and the src port must be the broker one (aka the service), so 1883.
    b. The number of involved clients based on the previous assumption is 1.
-   c. `mqtt && tcp.port == 1883 && mqtt.msgtype == 8 && mqtt.topic contains "hospital" && ip.dst_host == "3.65.168.153" && tcp.srcport == 59385`\
+   c. `mqtt && mqtt.msgtype == 8 && mqtt.topic contains "hospital" && ip.dst_host == "3.65.168.153" && tcp.srcport == 59385`\
      We are looking for these topics:
       - `hospital/facility2/section0` (3.65.168.153) (dst port 59385)
       - `hospital/facility2/room4/temperature` (3.65.168.153) (dst port 59385)
@@ -74,6 +74,6 @@ The questions to be answered are:
      This query looks for messages with MID = 1 of MQTT directed to the hivemq broker.
      b. `mqtt && mqtt.msgtype == 3 && tcp.dstport == CLIENT_PORT`\
      the query used inside the `scripts/6.b.py` allows to check all the publish messages received by a certain client. By checking the topics with the ones found in the answer 6.a, it results that 0 messages have been received by those clients with the highlighted subscribe requests.
-7. a. `mqttsn && frame.time >= "Jan 27, 2024 15:59:00" && mqttsn.topic.id == 6`\
+7. a. `mqttsn && frame.time >= "Jan 27, 2024 15:59:00" && mqttsn.topic.id == 6 && mqttsn.msg.type == 12`\
      The number of messages is 3. All of them receives back and ICMP message with a "port unreachable" error.
    b. The ICMP response means that there is not a process running on `127.0.0.1:1885`. Either the MQTT-SN server is offline or it is on a different port.
