@@ -67,7 +67,11 @@ The questions to be answered are:
      `mqtt && (mqtt.msgtype == 2 || mqtt.msgtype == 9 || mqtt.msgtype == 4) && (tcp.dstport == 43949 || tcp.dstport == 44887)`
      This query displays all the ACKs that the two clients received, including connect ACK, subscribe ACK and publish ACK.\
      The total number of received ACKs is 20
-6. a. `dns && dns.qry.name contains "hivemq"`\
-     This query reveals all the dns packets about hivemq broker. The correct IP addresses are: 3.66.35.116 and 3.65.168.153.\
+6. a. `dns && dns.resp.name contains "hivemq"`\
+     This query reveals all the dns responses about hivemq broker. The host has two IP addresses: 3.66.35.116 and 3.65.168.153.\
      `mqtt && mqtt.msgtype == 8 && (ip.dst_host == "3.66.35.116" || ip.dst_host == "3.65.168.153") && mqtt.msgid == 1`\
-     This query looks for messages with MID = 1 of MQTT directed to the hivemq broker. It reveals that there are 3 total subscription queries
+     The number of messages is 3.
+     This query looks for messages with MID = 1 of MQTT directed to the hivemq broker.
+7. a. `mqttsn && frame.time >= "Jan 27, 2024 15:59:00" && mqttsn.topic.id == 6`\
+     The number of messages is 3. All of them receives back and ICMP message with a "port unreachable" error.
+   b. The ICMP response means that there is not a process running on `127.0.0.1:1885`. Either the MQTT-SN server is offline or it is on a different port.
