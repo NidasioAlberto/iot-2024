@@ -81,3 +81,7 @@ The questions to be answered are:
    - Script4.2 reveals that 2 of the 4 clients would receive the message:
      1. Source Port: 59385 -> metaverse/facility4/+/light
      2. Source Port: 37419 -> metaverse/+/area0/light
+5. - `mqtt && mqtt.msgtype == 1 && mqtt.clientid_len <= 15 && mqtt.ver == 4`\
+     This query specifies the two clients that connected to brokers with a client identifier with length less (or equal) to 15 bytes and with MQTT version of 3.1.1.\
+     `mqtt && (mqtt.msgtype == 2 || mqtt.msgtype == 9 || mqtt.msgtype == 4) && (tcp.dstport == 43949 || tcp.dstport == 44887)`
+     This query displays all the ACKs that the two clients received, including connect ACK, subscribe ACK and publish ACK. The total number of received ACKs is 20
