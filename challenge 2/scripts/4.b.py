@@ -1,6 +1,5 @@
 import pyshark
 import nest_asyncio
-from time import *
 
 nest_asyncio.apply()
 
