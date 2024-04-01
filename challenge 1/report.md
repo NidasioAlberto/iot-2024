@@ -1,3 +1,7 @@
+---
+geometry: margin=3cm
+---
+
 # Challenge 1: Wokwi and Power Consumption
 
 The Node aim is to communicate to a central sink node the occupancy of a parking slot.
@@ -5,15 +9,18 @@ The Node aim is to communicate to a central sink node the occupancy of a parking
 ## Application requirements
 
 The node has to:
+
 - Periodically sample the HC-SR04 sensor
 - Understand if a car is present or not
 - Transmit the data sample (FREE/OCCUPIED)
 - Go in deep sleep state for some time
 
 The node should:
+
 - Consume the less amount of power possible
 
 Parameters:
+
 - Duty cycle: $(44 \space \% \space 50) + 5 = 49s$
 - Battery energy: $5344 + 5 = 5349Joule$
 
@@ -27,9 +34,10 @@ Parameters:
 
 ### Overall code structure
 
-![](state_diagram.svg)
+![](state_diagram.png)
 
 The application code is rather simple as there are 4 major steps:
+
 1. **Setup**: When the device boots up, the ESP-NOW protocol, transmission power and sensor are initialized
 2. **Measurement**: A sensor measurement is performed
 3. **Transmission**: The parking spot state is sent via radio
@@ -40,6 +48,7 @@ The application code is rather simple as there are 4 major steps:
 In order to estimate the duration of each of the states, we both made empirical measurements and theoretical calculations.
 
 To estimate the time duration of each state, we sampled the microcontroller system time between each state. By running the on Wokwi code we got the following result:
+
 - **Setup**: $168216\mu{s}$
 - **Mesurement**: $23845\mu{s}$
 - **Transmission**: $852\mu{s}$
@@ -51,6 +60,7 @@ We also compared the measured measurement time with the theoretical time require
 ## 2: Energy consumption esitmation
 
 From the provided log files, we measured the following power consumptions:
+
 - **Idle**: $315mW$
 - **Measurement**: $470mW$
 - **Transmission at 19.5dBm**: $1250mW$
@@ -60,6 +70,7 @@ From the provided log files, we measured the following power consumptions:
 Given the application requirements, where all the nodes are in a parking area, we assume that the sink node is relatively close to the nodes. For this reason we can transmit at 2dBm power.
 
 Considering the power consumption and duration of each relative state, we can estimate the power consumption of one cycle:
+
 - **Setup**: $315mW \cdot 168216\mu{s} = 60mJ$
 - **Measurement**: $470mW \cdot 23845\mu{s} = 11.2mJ$
 - **Transmission at 2dBm**: $800mW \cdot 852\mu{s} = 0.7mJ$
@@ -80,6 +91,7 @@ The implemented system provides a power-on time of only roughly one day. This re
 The measurement state takes the most amount of energy!
 
 Considering the original application requirements, we could consider several possible improvements to the current implementation:
+
 - A cycle duration of $~50s$ may be too short or long, depending on the application goals. If we could increase the deep-sleep duration, one battery cycle would last more time.
 - Currently, the node transmit the measured data at each cycle, even if the parking slot state did not change. By comparing the current measurement against the previous one (we could store it in the ESP32's RTC RAM, that is maintained during deep-sleep), we could use the radio to transmit only state changes. This would reduce the power consumption since the parking slots occupancies does not change very frequently.
 - Implement a solar panel and a battery charger circuit. This could entirely avoid the need to recharge the battery.
