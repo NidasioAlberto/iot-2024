@@ -63,6 +63,7 @@ The questions to be answered are:
      5. Client Port: 59385 -> `metaverse/facility4/+/light`
      6. Client Port: 37419 -> `metaverse/+/area0/light`
 5. a. `mqtt && mqtt.msgtype == 1 && mqtt.clientid_len <= 15 && mqtt.ver == 4`\
-     This query specifies the two clients that connected to brokers with a client identifier with length less (or equal) to 15 bytes and with MQTT version of 3.1.1.\
+     There are 2 clients which connected to brokers with a client identifier with length less (or equal) to 15 bytes and with MQTT version of 3.1.1.\
      `mqtt && (mqtt.msgtype == 2 || mqtt.msgtype == 9 || mqtt.msgtype == 4) && (tcp.dstport == 43949 || tcp.dstport == 44887)`
-     This query displays all the ACKs that the two clients received, including connect ACK, subscribe ACK and publish ACK. The total number of received ACKs is 20
+     This query displays all the ACKs that the two clients received, including connect ACK, subscribe ACK and publish ACK.\
+     The total number of received ACKs is 20
