@@ -72,6 +72,8 @@ The questions to be answered are:
      `mqtt && mqtt.msgtype == 8 && (ip.dst_host == "3.66.35.116" || ip.dst_host == "3.65.168.153") && mqtt.msgid == 1`\
      The number of messages is 3.
      This query looks for messages with MID = 1 of MQTT directed to the hivemq broker.
+     b. `mqtt && mqtt.msgtype == 3 && tcp.dstport == CLIENT_PORT`\
+     the query used inside the `scripts/6.b.py` allows to check all the publish messages received by a certain client. By checking the topics with the ones found in the answer 6.a, it results that 0 messages have been received by those clients with the highlighted subscribe requests.
 7. a. `mqttsn && frame.time >= "Jan 27, 2024 15:59:00" && mqttsn.topic.id == 6`\
      The number of messages is 3. All of them receives back and ICMP message with a "port unreachable" error.
    b. The ICMP response means that there is not a process running on `127.0.0.1:1885`. Either the MQTT-SN server is offline or it is on a different port.
