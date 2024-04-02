@@ -6,6 +6,12 @@ geometry: margin=3cm
 
 The goal of this challenge is to analyze the CoAP and MQTT traffic given a log.
 
+## Team Members
+
+- Alberto Nidasio 10665344
+- Federico Mandelli 10611353
+- Matteo Pignataro 10667498
+
 ## Questions
 
 The questions to be answered are:
