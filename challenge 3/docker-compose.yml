@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  node-red:
+    image: nodered/node-red:latest
+    network_mode: host
+    volumes:
+      - ./node-red:/data
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./mosquitto:/etc/mosquitto
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf

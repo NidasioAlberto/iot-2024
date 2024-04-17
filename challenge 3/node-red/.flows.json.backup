@@ -1,0 +1,215 @@
+[
+    {
+        "id": "79f8454e5ff515b0",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1d32535bf8fec7dc",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1884",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "0c1edfc039a8b281",
+        "type": "mqtt out",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1d32535bf8fec7dc",
+        "x": 750,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "e7f4fda18bb0d6b0",
+        "type": "inject",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "5",
+        "topic": "challenge3/id_generator",
+        "x": 310,
+        "y": 520,
+        "wires": [
+            [
+                "c75ed1f8599bf97a"
+            ]
+        ]
+    },
+    {
+        "id": "c75ed1f8599bf97a",
+        "type": "function",
+        "z": "79f8454e5ff515b0",
+        "name": "function 1",
+        "func": "msg.payload = {\n    id: Math.round(Math.random() * 50000),\n    timestamp: Date.now(),\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 520,
+        "wires": [
+            [
+                "0c1edfc039a8b281",
+                "06384c891895d383"
+            ]
+        ]
+    },
+    {
+        "id": "4cee0ef68a52c0db",
+        "type": "csv",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "once",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "No.,ID,TIMESTAMP",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 810,
+        "y": 620,
+        "wires": [
+            [
+                "a4167938b28ea638",
+                "5882471edaa25373"
+            ]
+        ]
+    },
+    {
+        "id": "a4167938b28ea638",
+        "type": "file",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "filename": "/data/id_log.csv",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1020,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5882471edaa25373",
+        "type": "debug",
+        "z": "79f8454e5ff515b0",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "06384c891895d383",
+        "type": "change",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.id",
+                "pt": "msg",
+                "to": "payload.ID",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.timestamp",
+                "pt": "msg",
+                "to": "payload.TIMESTAMP",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 620,
+        "wires": [
+            [
+                "82da7473f244a581"
+            ]
+        ]
+    },
+    {
+        "id": "82da7473f244a581",
+        "type": "function",
+        "z": "79f8454e5ff515b0",
+        "name": "function 2",
+        "func": "var counter = flow.get(\"counter\") || 0\ncounter++;\nflow.set(\"counter\", counter);\n\nmsg.payload[\"No.\"] = counter;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 620,
+        "wires": [
+            [
+                "4cee0ef68a52c0db"
+            ]
+        ]
+    }
+]
