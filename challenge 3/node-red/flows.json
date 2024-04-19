@@ -160,5 +160,197 @@
                 "4cee0ef68a52c0db"
             ]
         ]
+    },
+    {
+        "id": "d3613598760e5238",
+        "type": "mqtt in",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "topic": "challenge3/id_generator",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "1d32535bf8fec7dc",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 760,
+        "wires": [
+            [
+                "73a568a7492d90de"
+            ]
+        ]
+    },
+    {
+        "id": "7b2e395c9ebb5764",
+        "type": "file in",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "filename": "/data/challenge3.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 740,
+        "y": 760,
+        "wires": [
+            [
+                "e817821c40702f8e"
+            ]
+        ]
+    },
+    {
+        "id": "73a568a7492d90de",
+        "type": "function",
+        "z": "79f8454e5ff515b0",
+        "name": "Compute N",
+        "func": "msg.N = msg.payload.id % 7711;\nmsg.ID = msg.payload.id;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 760,
+        "wires": [
+            [
+                "7b2e395c9ebb5764"
+            ]
+        ]
+    },
+    {
+        "id": "e817821c40702f8e",
+        "type": "csv",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "No.,Time,Source,Destination,Protocol,Length,Source Port,Destination Port,Info,Payload",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 970,
+        "y": 760,
+        "wires": [
+            [
+                "0c725090504eabb7"
+            ]
+        ]
+    },
+    {
+        "id": "0c725090504eabb7",
+        "type": "function",
+        "z": "79f8454e5ff515b0",
+        "name": "Find message with No. = N in challenge3.csv",
+        "func": "for(let i = 0; i < msg.payload.length; i++) {\n    if(msg.payload[i][\"No.\"] == msg.N) {\n        msg.payload = msg.payload[i];\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 840,
+        "wires": [
+            [
+                "fca190b3d989158c"
+            ]
+        ]
+    },
+    {
+        "id": "fca190b3d989158c",
+        "type": "switch",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "property": "payload.Info",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "Publish Message",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 840,
+        "wires": [
+            [
+                "f6430e31252543b6"
+            ]
+        ]
+    },
+    {
+        "id": "f6430e31252543b6",
+        "type": "function",
+        "z": "79f8454e5ff515b0",
+        "name": "Prepare MQTT message",
+        "func": "msg.topic = msg.payload.Info.split(\"[\")[1].slice(0, -1);\nmsg.payload = {\n    timestamp: Date.now(),\n    id: msg.ID,\n    payload: msg.payload.Payload,\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 920,
+        "wires": [
+            [
+                "0598d446f3a20b62"
+            ]
+        ]
+    },
+    {
+        "id": "fdb679f522b28ba8",
+        "type": "mqtt out",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "topic": "challenge3/other",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1d32535bf8fec7dc",
+        "x": 1010,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "0598d446f3a20b62",
+        "type": "delay",
+        "z": "79f8454e5ff515b0",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "4",
+        "nbRateUnits": "1",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 790,
+        "y": 920,
+        "wires": [
+            [
+                "fdb679f522b28ba8"
+            ]
+        ]
     }
 ]
