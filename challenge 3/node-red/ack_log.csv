@@ -1,0 +1,7 @@
+TIMESTAMP,SUB_ID,MSG_TYPE
+1713602932260,29696,Publish Ack (id=22)
+1713602967296,44655,Connect Ack[Malformed Packet]
+1713603087500,6100,Connect Ack[Malformed Packet]
+1713603117547,22709,Publish Ack (id=9)
+1713603222746,6223,Publish Ack (id=28)
+1713603227750,881,Publish Ack (id=20)
