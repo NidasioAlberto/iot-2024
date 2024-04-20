@@ -183,10 +183,10 @@
         "onceDelay": "5",
         "topic": "",
         "x": 230,
-        "y": 460,
+        "y": 520,
         "wires": [
             [
-                "ed4204d89306a61e"
+                "c75ed1f8599bf97a"
             ]
         ]
     },
@@ -260,7 +260,7 @@
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
-        "initialize": "",
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nflow.set(\"counter\", 0);",
         "finalize": "",
         "libs": [],
         "x": 490,
@@ -288,7 +288,7 @@
         "y": 760,
         "wires": [
             [
-                "73a568a7492d90de"
+                "ed4204d89306a61e"
             ]
         ]
     },
@@ -304,7 +304,7 @@
         "sendError": false,
         "encoding": "none",
         "allProps": false,
-        "x": 700,
+        "x": 900,
         "y": 760,
         "wires": [
             [
@@ -324,7 +324,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
+        "x": 690,
         "y": 760,
         "wires": [
             [
@@ -347,7 +347,7 @@
         "strings": true,
         "include_empty_strings": "",
         "include_null_values": "",
-        "x": 920,
+        "x": 1120,
         "y": 760,
         "wires": [
             [
@@ -731,7 +731,7 @@
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
-        "initialize": "",
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nflow.set(\"filtered_counter\", 0);",
         "finalize": "",
         "libs": [],
         "x": 490,
@@ -908,18 +908,18 @@
         "type": "function",
         "z": "79f8454e5ff515b0",
         "name": "Limit to 80 messages",
-        "func": "var counter = flow.get(\"messages_counter\") || 0;\n\nif (counter < 80) {\n    counter++;\n    flow.set(\"messages_counter\", counter);\n    return msg;\n} else {\n    return undefined;\n}",
+        "func": "var counter = flow.get(\"received_counter\") || 0;\n\nif (counter < 80) {\n    counter++;\n    flow.set(\"received_counter\", counter);\n    return msg;\n} else {\n    return undefined;\n}",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
-        "initialize": "// Code added here will be run once\n// whenever the node is started.\nflow.set(\"messages_counter\", 0);",
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nflow.set(\"received_counter\", 0);",
         "finalize": "",
         "libs": [],
-        "x": 220,
-        "y": 520,
+        "x": 460,
+        "y": 760,
         "wires": [
             [
-                "c75ed1f8599bf97a"
+                "73a568a7492d90de"
             ]
         ]
     }
