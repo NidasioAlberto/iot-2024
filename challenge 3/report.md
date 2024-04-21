@@ -14,11 +14,11 @@ The goal of this challenge is to implement a node on the Node-Red framework, whi
 
 ## Flow explanation
 
-![alt text](image.png)
+![](image.png)
 
 ### Publisher
 
-![alt text](image-1.png)
+![](image-1.png)
 
 The publisher flow is composed by:
 
@@ -32,7 +32,7 @@ The publisher flow is composed by:
 
 ### Subscriber
 
-![alt text](image-2.png)
+![](image-2.png)
 The subscriber flow encounters:
 
 1. Message limiter: A node that limits the total number of received messages to 80 using a flow variable named `received_counter`
@@ -42,8 +42,8 @@ The subscriber flow encounters:
 
 ### Subscriber MQTT-Publish
 
-![alt text](image-3.png)
-![alt text](image-5.png)
+![](image-3.png)
+![](image-5.png)
 
 The MQTT-Publisher sub-flow is composed by:
 
@@ -57,7 +57,7 @@ The MQTT-Publisher sub-flow is composed by:
 
 ### Subscriber ACK
 
-![alt text](image-4.png)
+![](image-4.png)
 
 The subscriber ack flow encounters:
 
